@@ -36,7 +36,7 @@ kable(py$df)
 ## Obv 1
 
 NSD2-OE seems to restore K36me2 in regions that are depleted in the NSD1KO.
-```{r echo = FALSE, warning=FALSE,message=FALSE,out.width='100%', dpi = 600,fig.retina=2}
+```{r echo = FALSE, warning=FALSE,message=FALSE,out.width='100%', dpi = 600,fig.width=12,fig.height=9}
 include_graphics(c("images/restored_nsd2oe_1.png"),dpi = 600)
 
 #<p align="center">
@@ -57,7 +57,7 @@ include_graphics("images/restored_nsd2oe_2.png",dpi=600)
 However, it seems NSD2-OE also causes spreading of K36me2 into regions that normally has lower levels of K36me2 in parental and WT. 
 
 ```{r echo = FALSE, warning=FALSE,message=FALSE,out.width='100%', dpi = 600,fig.retina=2}
-include_graphics("images/excess_nsd2oe_1.png",dpi=600)
+include_graphics("images/excess_nsd2oe_2.png",dpi=600)
 ```
 
 ## Obv 3
