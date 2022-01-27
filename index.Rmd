@@ -59,6 +59,10 @@ However, it seems NSD2-OE also causes spreading of K36me2 into regions that norm
 ```{r echo = FALSE, warning=FALSE,message=FALSE,out.width='100%', dpi = 600,fig.retina=2}
 include_graphics("images/excess_nsd2oe_2.png",dpi=600)
 ```
+<p>&nbsp;</p>
+```{r echo = FALSE, warning=FALSE,message=FALSE,out.width='100%', dpi = 600,fig.retina=2}
+include_graphics("images/excess_nsd2oe_4.png",dpi=600)
+```
 
 ## Obv 3
 
@@ -71,3 +75,6 @@ include_graphics("images/dysfunction_nsd2oe_1.png",dpi=600)
 # Summary
 * NSD2OE restores K36me2 depleted in NSD1KO, but also increases K36me2 in regions that are otherwise not elevated in parental/WT.
 * Hypothesis: NSD2OE may cause restoration of K36me2 and unwanted spreading in other regions but does not necessarily elevate K36me2 in a given region to the extent as parental/WT. 
+
+# Future directions
+* Look at peakiness of NSD2OE in intergenic regions compared to parental/WT.
