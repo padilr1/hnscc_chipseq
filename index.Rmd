@@ -36,30 +36,37 @@ kable(py$df)
 ## Obv 1
 
 NSD2-OE seems to restore K36me2 in regions that are depleted in the NSD1KO.
+```{r echo = FALSE, warning=FALSE,message=FALSE,out.width='100%', dpi = 600,fig.retina=2}
+include_graphics(c("images/restored_nsd2oe_1.png"),dpi = 600)
 
-<p align="center">
-  <img src="images/restored_nsd2oe_1.png">
-</p>
+#<p align="center">
+  #<img src="images/restored_nsd2oe_1.png" width ="1080" height="540">
+#</p>
+#<p>&nbsp;</p>
+#<p align="center">
+ # <img src="images/restored_nsd2oe_2.png">
+#</p>
+```
 <p>&nbsp;</p>
-<p align="center">
-  <img src="images/restored_nsd2oe_2.png">
-</p>
+```{r echo = FALSE, warning=FALSE,message=FALSE,out.width='100%', dpi = 600,fig.retina=2}
+include_graphics("images/restored_nsd2oe_2.png",dpi=600)
+```
 
 ## Obv 2
 
 However, it seems NSD2-OE also causes spreading of K36me2 into regions that normally has lower levels of K36me2 in parental and WT. 
 
-<p align="center">
-  <img src="images/excess_nsd2oe_1.png">
-</p>
+```{r echo = FALSE, warning=FALSE,message=FALSE,out.width='100%', dpi = 600,fig.retina=2}
+include_graphics("images/excess_nsd2oe_1.png",dpi=600)
+```
 
 ## Obv 3
 
 In other instances, NSD2-OE does not seem to restore K36me2 to the level of parental/WT.
 
-<p align="center">
-  <img src="images/dysfunction_nsd2oe_1.png">
-</p>
+```{r echo = FALSE, warning=FALSE,message=FALSE,out.width='100%', dpi = 600,fig.retina=2}
+include_graphics("images/dysfunction_nsd2oe_1.png",dpi=600)
+```
 
 # Summary
 * NSD2OE restores K36me2 depleted in NSD1KO, but also increases K36me2 in regions that are otherwise not elevated in parental/WT.
