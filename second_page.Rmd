@@ -69,7 +69,7 @@ plotAnnoBar(annot)
 
 ## Ensembl Enrichment {.tabset}
 
-Recently, NSD2-overexpression has been linked with increased CTCF binding (greater CTCF peaks in NSD2OE compared to NSD2-low-expression) [DOI: 10.1038/s41467-019-12811-4](DOI: 10.1038/s41467-019-12811-4). Similarly, in genic regions, when we overexpress NSD2 in NSD1KO, it seems that CTCF binding sites are affected/altered (cluster A). However, in intergenic regions, the effect is indiscriminate and not specific to an annotated region.
+Recently, NSD2-overexpression has been shown to alter CTCF binding within K36me2 enriched regions. [https://www.nature.com/articles/s41467-019-12811-4](DOI: 10.1038/s41467-019-12811-4). Similarly, regions that had increased K36me2 in NSD2OE relative to parental seems to be enriched at intragenic CTCF binding sites (cluster A). However, in intergenic regions, the effect is more indiscriminate and not specific to an annotated region, although some of the bins also overlap with intergenic CTCF binding sites. 
 
 ### Genome-wide
 ```{r, fig.cap="Overlap enrichment result of Ensembl annotations. The size of the dots corresponds to number of bins overlapping the corresponding annotation. *** represents p-value < 1e-5 based on Fisher’s exact test of bins overlapping a specific class of annotated regions versus a background of all non-quiescent bins, meaning >10 reads in at least one mark in one sample.",echo = FALSE, warning=FALSE,message=FALSE,out.width='100%'}
