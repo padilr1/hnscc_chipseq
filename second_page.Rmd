@@ -69,6 +69,10 @@ plotAnnoBar(annot)
 
 ## Ensembl Enrichment {.tabset}
 
+Nonetheless, we can proceed with the representative bins in those clusters we identified and examine whether they preferentially overlap certain elements.
+
+Here we see consistent enrichment in CTCF binding sites.
+
 Recently, NSD2-overexpression has been shown to alter CTCF binding within K36me2 enriched regions. [https://www.nature.com/articles/s41467-019-12811-4](DOI: 10.1038/s41467-019-12811-4). Similarly, regions that had increased K36me2 in NSD2OE relative to parental seems to be enriched at intragenic CTCF binding sites (cluster A). However, in intergenic regions, the effect is more indiscriminate and not specific to an annotated region, although some of the bins also overlap with intergenic CTCF binding sites. 
 
 ### Genome-wide

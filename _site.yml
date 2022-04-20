@@ -6,4 +6,6 @@ navbar:
       href: index.html
     - text: "NSD2OE"
       href: second_page.html
+    - text: "Part 3"
+      href: third_page.html
 output_dir: "docs"

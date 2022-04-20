@@ -1,0 +1,377 @@
+---
+title: ""
+author: ""
+date: ""
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 3
+    smooth_scroll: false
+    theme: cerulean
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(reshape2)
+library(tidyverse)
+library(rtracklayer)
+library(isoband)
+library(sf)
+library(MASS)
+library(lwgeom)
+library(ggrepel)
+library(hexbin)
+library(ggrastr)
+library(viridis)
+library(pals)
+library(patchwork)
+library(highcharter)
+library(dplyr)
+library(GenomicRanges)
+library(reactable)
+```
+
+```{r echo = FALSE, warning=FALSE,message=FALSE,out.width='100%'}
+setwd("~/Documents/hnscc_chipseq/nsd2oe")
+wd <- paste0("~/Documents/hnscc_chipseq/nsd2oe")
+```
+
+# NSD1KO-NSD2OE v PA
+
+## Clusters
+```{r echo = FALSE, warning=FALSE,message=FALSE,fig.width=8,fig.height=3}
+load("~/Documents/hnscc_chipseq/nsd2oe/plots/Cal27.PA.NSD2OE.K36me2.clus.fig.rda")
+ps$Cal27
+cell_line=paste0("Cal27")
+control=paste0("PA")
+test=paste0("NSD2OE")
+mark=paste0("K36me2")
+```
+
+## Annotations - cluster A {.tabset}
+
+### Ensembl regulatory build {.tabset .tabset-pills}
+
+#### Genome-wide
+
+Genome-wide enrichment of open chromatin in cluster A, but not necessarily in IGR. 
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(sprintf("%s/plots/Cal27.PA.NSD2OE.K36me2.ensembl.ol.plot.enrich.rda",wd))
+p1 <- ensembl.ol.plot.enrich
+load("~/Documents/hnscc_chipseq/nsd2oe/plots/Cal27.PA.NSD2OE.K36me2.ensembl.ol.plot.dep.rda")
+p2 <- ensembl.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### IGR
+
+No significant enrichment in IGR, but there is significant depletion in promoter flanking region, promoter, CTCF binding site and enhancer.
+
+```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+load(sprintf("%s/plots/Cal27.PA.NSD2OE.K36me2.ensembl.ol.plot.enrich.igr.rda",wd))
+p1 <- ensembl.ol.plot.enrich
+load("~/Documents/hnscc_chipseq/nsd2oe/plots/Cal27.PA.NSD2OE.K36me2.ensembl.ol.plot.dep.igr.rda")
+p2 <- ensembl.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### Genic
+```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+load(sprintf("%s/plots/Cal27.PA.NSD2OE.K36me2.ensembl.ol.plot.enrich.g.rda",wd))
+p1 <- ensembl.ol.plot.enrich
+load("~/Documents/hnscc_chipseq/nsd2oe/plots/Cal27.PA.NSD2OE.K36me2.ensembl.ol.plot.dep.g.rda")
+p2 <- ensembl.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+### ENCODE cCRE {.tabset .tabset-pills}
+
+#### Genome-wide
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.ccre.ol.plot.enrich.rda",wd,cell_line,control,test,mark))
+p1 <- ccre.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.ccre.ol.plot.dep.rda',wd,cell_line,control,test,mark)))
+p2 <- ccre.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### IGR
+
+In cluster A, which has indiscriminate increases in K36me2, we may see enrichment in CTCF binding sites, but not necessarily restored enhancer function. NSD1-mediated K36me2-marked enhancer function may still not be completely recovered.
+
+```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.ccre.ol.plot.enrich.igr.rda",wd,cell_line,control,test,mark))
+p1 <- ccre.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.ccre.ol.plot.dep.igr.rda',wd,cell_line,control,test,mark)))
+p2 <- ccre.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### Genic
+
+```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.ccre.ol.plot.enrich.g.rda",wd,cell_line,control,test,mark))
+p1 <- ccre.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.ccre.ol.plot.dep.g.rda',wd,cell_line,control,test,mark)))
+p2 <- ccre.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+### RepeatMasker {.tabset .tabset-pills}
+
+#### Genome-wide
+
+Genome-wide enrichment of LTR, LINE and satellite repeats.
+
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.repeat.ol.plot.enrich.rda",wd,cell_line,control,test,mark))
+p1 <- repeat.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.repeat.ol.plot.dep.rda',wd,cell_line,control,test,mark)))
+p2 <- repeat.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### IGR
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.repeat.ol.plot.enrich.igr.rda",wd,cell_line,control,test,mark))
+p1 <- repeat.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.repeat.ol.plot.dep.igr.rda',wd,cell_line,control,test,mark)))
+p2 <- repeat.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### Genic 
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.repeat.ol.plot.enrich.g.rda",wd,cell_line,control,test,mark))
+p1 <- repeat.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.repeat.ol.plot.dep.g.rda',wd,cell_line,control,test,mark)))
+p2 <- repeat.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+---
+
+# NSD2KO v PA
+
+## Clusters
+```{r echo = FALSE, warning=FALSE,message=FALSE,fig.width=8,fig.height=3}
+load("~/Documents/hnscc_chipseq/nsd2oe/plots/Cal27.PA.NSD2KO_c1.K36me2.clus.fig.rda")
+ps$Cal27
+cell_line=paste0("Cal27")
+control=paste0("PA")
+test=paste0("NSD2KO_c1")
+mark=paste0("K36me2")
+```
+
+## Annotations - cluster A {.tabset}
+
+### Ensembl regulatory build {.tabset .tabset-pills}
+
+#### Genome-wide
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.ensembl.ol.plot.enrich.rda",wd,cell_line,control,test,mark))
+p1 <- ensembl.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.ensembl.ol.plot.dep.rda',wd,cell_line,control,test,mark)))
+p2 <- ensembl.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### IGR
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.ensembl.ol.plot.enrich.igr.rda",wd,cell_line,control,test,mark))
+p1 <- ensembl.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.ensembl.ol.plot.dep.igr.rda',wd,cell_line,control,test,mark)))
+p2 <- ensembl.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### Genic
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.ensembl.ol.plot.enrich.g.rda",wd,cell_line,control,test,mark))
+p1 <- ensembl.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.ensembl.ol.plot.dep.g.rda',wd,cell_line,control,test,mark)))
+p2 <- ensembl.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+### ENCODE cCRE {.tabset .tabset-pills}
+
+#### Genome-wide
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.ccre.ol.plot.enrich.rda",wd,cell_line,control,test,mark))
+p1 <- ccre.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.ccre.ol.plot.dep.rda',wd,cell_line,control,test,mark)))
+p2 <- ccre.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### IGR
+
+```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.ccre.ol.plot.enrich.igr.rda",wd,cell_line,control,test,mark))
+p1 <- ccre.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.ccre.ol.plot.dep.igr.rda',wd,cell_line,control,test,mark)))
+p2 <- ccre.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### Genic
+
+```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.ccre.ol.plot.enrich.g.rda",wd,cell_line,control,test,mark))
+p1 <- ccre.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.ccre.ol.plot.dep.g.rda',wd,cell_line,control,test,mark)))
+p2 <- ccre.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+### RepeatMasker {.tabset .tabset-pills}
+
+#### Genome-wide
+
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.repeat.ol.plot.enrich.rda",wd,cell_line,control,test,mark))
+p1 <- repeat.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.repeat.ol.plot.dep.rda',wd,cell_line,control,test,mark)))
+p2 <- repeat.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### IGR
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.repeat.ol.plot.enrich.igr.rda",wd,cell_line,control,test,mark))
+p1 <- repeat.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.repeat.ol.plot.dep.igr.rda',wd,cell_line,control,test,mark)))
+p2 <- repeat.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### Genic 
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.repeat.ol.plot.enrich.g.rda",wd,cell_line,control,test,mark))
+p1 <- repeat.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.repeat.ol.plot.dep.g.rda',wd,cell_line,control,test,mark)))
+p2 <- repeat.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+---
+
+# NSD1KO v NSD2KO
+
+## Clusters
+```{r echo = FALSE, warning=FALSE,message=FALSE,fig.width=8,fig.height=3}
+load("~/Documents/hnscc_chipseq/nsd2oe/plots/Cal27.NSD1KO.NSD2KO_c1.K36me2.clus.fig.rda")
+ps$Cal27
+cell_line=paste0("Cal27")
+control=paste0("NSD1KO")
+test=paste0("NSD2KO_c1")
+mark=paste0("K36me2")
+```
+
+## Annotations - cluster A {.tabset}
+
+### Ensembl regulatory build {.tabset .tabset-pills}
+
+#### Genome-wide
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.ensembl.ol.plot.enrich.rda",wd,cell_line,control,test,mark))
+p1 <- ensembl.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.ensembl.ol.plot.dep.rda',wd,cell_line,control,test,mark)))
+p2 <- ensembl.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### IGR
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.ensembl.ol.plot.enrich.igr.rda",wd,cell_line,control,test,mark))
+p1 <- ensembl.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.ensembl.ol.plot.dep.igr.rda',wd,cell_line,control,test,mark)))
+p2 <- ensembl.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### Genic
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.ensembl.ol.plot.enrich.g.rda",wd,cell_line,control,test,mark))
+p1 <- ensembl.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.ensembl.ol.plot.dep.g.rda',wd,cell_line,control,test,mark)))
+p2 <- ensembl.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+### ENCODE cCRE {.tabset .tabset-pills}
+
+#### Genome-wide
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.ccre.ol.plot.enrich.rda",wd,cell_line,control,test,mark))
+p1 <- ccre.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.ccre.ol.plot.dep.rda',wd,cell_line,control,test,mark)))
+p2 <- ccre.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### IGR
+
+```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.ccre.ol.plot.enrich.igr.rda",wd,cell_line,control,test,mark))
+p1 <- ccre.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.ccre.ol.plot.dep.igr.rda',wd,cell_line,control,test,mark)))
+p2 <- ccre.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### Genic
+
+```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.ccre.ol.plot.enrich.g.rda",wd,cell_line,control,test,mark))
+p1 <- ccre.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.ccre.ol.plot.dep.g.rda',wd,cell_line,control,test,mark)))
+p2 <- ccre.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+### RepeatMasker {.tabset .tabset-pills}
+
+#### Genome-wide
+
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.repeat.ol.plot.enrich.rda",wd,cell_line,control,test,mark))
+p1 <- repeat.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.repeat.ol.plot.dep.rda',wd,cell_line,control,test,mark)))
+p2 <- repeat.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### IGR
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.repeat.ol.plot.enrich.igr.rda",wd,cell_line,control,test,mark))
+p1 <- repeat.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.repeat.ol.plot.dep.igr.rda',wd,cell_line,control,test,mark)))
+p2 <- repeat.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+#### Genic 
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="50%",fig.align='center'}
+load(file=sprintf("%s/plots/%s.%s.%s.%s.repeat.ol.plot.enrich.g.rda",wd,cell_line,control,test,mark))
+p1 <- repeat.ol.plot.enrich
+load(file=(sprintf('%s/plots/%s.%s.%s.%s.repeat.ol.plot.dep.g.rda',wd,cell_line,control,test,mark)))
+p2 <- repeat.ol.plot.dep
+hw_grid(p1,p2)
+```
+
+
+---
+
+# NSD1KO v NSD.DKO
+
+## Clusters
+```{r echo = FALSE, warning=FALSE,message=FALSE,fig.width=8,fig.height=3}
+load("~/Documents/hnscc_chipseq/nsd2oe/plots/Cal27.NSD1KO.DKO_2.K36me2.clus.fig.rda")
+ps$Cal27
+```
