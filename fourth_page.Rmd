@@ -1,0 +1,54 @@
+---
+title: ""
+author: ""
+date: ""
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 3
+    smooth_scroll: false
+    theme: cerulean
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+using <- function(...) {
+  libs <- unlist(list(...))
+  need <- libs <- libs[!unlist(lapply(libs, require, character.only = T))]
+  if(length(need) > 0){ 
+    install.packages(need, repos = "https://cloud.r-project.org")
+    need <- need[!unlist(lapply(need, require, character.only = T))]
+    if (length(need) > 0) {
+      if (!requireNamespace("BiocManager", quietly = T))
+        install.packages("BiocManager")
+      BiocManager::install(need)
+    }
+  }
+  lapply(libs, require, character.only = T)
+}
+using("data.table", "tidyverse", "lattice", "gridExtra",
+      "rtracklayer", "DiffBind", "idr2d", "patchwork","Rseb","cowplot")
+```
+
+```{r echo = FALSE, warning=FALSE,message=FALSE,out.width='100%'}
+setwd("~/Documents/hnscc_chipseq/nsd2oe")
+wd <- paste0("~/Documents/hnscc_chipseq/nsd2oe")
+```
+
+# Heatmaps 
+
+## OCR
+```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+imageList <- list.files("~/Documents/hnscc_chipseq/heatmaps", pattern= "^Cal27.*.*.ocr.png$", full.names=T)
+include_graphics(imageList,dpi = 600)
+```
+
+## Enhancer
+```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+imageList <- list.files("~/Documents/hnscc_chipseq/heatmaps", pattern= "^Cal27.*.*.enhancer.png$", full.names=T)
+include_graphics(imageList,dpi = 600)
+```
