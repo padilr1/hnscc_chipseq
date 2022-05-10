@@ -52,3 +52,31 @@ include_graphics(imageList,dpi = 600)
 imageList <- list.files("~/Documents/hnscc_chipseq/heatmaps", pattern= "^Cal27.*.*.enhancer.png$", full.names=T)
 include_graphics(imageList,dpi = 600)
 ```
+
+# Top 10% distribution
+
+## K36me2 {.tabset}
+
+### OCR
+```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+K36me2.ocr.rseb <- read.computeMatrix.file("~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K36me2.ocr.mat.gz")
+K36me2.ocr.rseb$matrix.data <- K36me2.ocr.rseb$matrix.data %>%
+  dplyr::slice(1:10693)
+K36me2.ocr.rseb$metadata$values[[22]] <- c("0,10693")
+#
+K36me2.profile.sub <- plot.density.profile(matrix.file = K36me2.ocr.rseb,plot.by.group = TRUE,region.names = "OCR")
+K36me2.profile.full <- plot.density.profile(matrix.file = "~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K36me2.ocr.mat.gz",plot.by.group = TRUE,region.names = "OCR")
+cowplot::plot_grid(K36me2.profile.sub$multiplot,K36me2.profile.full$multiplot,nrow=2,labels="AUTO")
+```
+
+### Enhancer
+```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+K36me2.enhancer.rseb <- read.computeMatrix.file("~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K36me2.enhancer.mat.gz")
+K36me2.enhancer.rseb$matrix.data <- K36me2.enhancer.rseb$matrix.data %>%
+  dplyr::slice(1:12509)
+K36me2.enhancer.rseb$metadata$values[[22]] <- c("0,12509")
+#
+K36me2.profile.sub <- plot.density.profile(matrix.file = K36me2.enhancer.rseb,plot.by.group = TRUE,region.names = "enhancer")
+K36me2.profile.full <- plot.density.profile(matrix.file = "~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K36me2.enhancer.mat.gz",plot.by.group = TRUE,region.names = "enhancer")
+cowplot::plot_grid(K36me2.profile.sub$multiplot,K36me2.profile.full$multiplot,nrow=2,labels="AUTO")
+```
