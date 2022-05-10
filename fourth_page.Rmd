@@ -53,30 +53,83 @@ imageList <- list.files("~/Documents/hnscc_chipseq/heatmaps", pattern= "^Cal27.*
 include_graphics(imageList,dpi = 600)
 ```
 
-# Top 10% distribution
+# Top 10% distribution relative to K36me2
 
-## K36me2 {.tabset}
+## K36me2
 
-### OCR
-```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+```{r,echo = FALSE,include=FALSE}
 K36me2.ocr.rseb <- read.computeMatrix.file("~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K36me2.ocr.mat.gz")
+#
 K36me2.ocr.rseb$matrix.data <- K36me2.ocr.rseb$matrix.data %>%
   dplyr::slice(1:10693)
 K36me2.ocr.rseb$metadata$values[[22]] <- c("0,10693")
 #
 K36me2.profile.sub <- plot.density.profile(matrix.file = K36me2.ocr.rseb,plot.by.group = TRUE,region.names = "OCR")
 K36me2.profile.full <- plot.density.profile(matrix.file = "~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K36me2.ocr.mat.gz",plot.by.group = TRUE,region.names = "OCR")
-cowplot::plot_grid(K36me2.profile.sub$multiplot,K36me2.profile.full$multiplot,nrow=2,labels="AUTO")
-```
-
-### Enhancer
-```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+#
 K36me2.enhancer.rseb <- read.computeMatrix.file("~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K36me2.enhancer.mat.gz")
 K36me2.enhancer.rseb$matrix.data <- K36me2.enhancer.rseb$matrix.data %>%
   dplyr::slice(1:12509)
 K36me2.enhancer.rseb$metadata$values[[22]] <- c("0,12509")
 #
-K36me2.profile.sub <- plot.density.profile(matrix.file = K36me2.enhancer.rseb,plot.by.group = TRUE,region.names = "enhancer")
-K36me2.profile.full <- plot.density.profile(matrix.file = "~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K36me2.enhancer.mat.gz",plot.by.group = TRUE,region.names = "enhancer")
-cowplot::plot_grid(K36me2.profile.sub$multiplot,K36me2.profile.full$multiplot,nrow=2,labels="AUTO")
+K36me2.profile.sub.enh <- plot.density.profile(matrix.file = K36me2.enhancer.rseb,plot.by.group = TRUE,region.names = "enhancer")
+K36me2.profile.full.enh <- plot.density.profile(matrix.file = "~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K36me2.enhancer.mat.gz",plot.by.group = TRUE,region.names = "enhancer")
+```
+
+```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+cowplot::plot_grid(K36me2.profile.sub$multiplot,K36me2.profile.full$multiplot,nrow=2,labels="")
+#
+cowplot::plot_grid(K36me2.profile.sub.enh$multiplot,K36me2.profile.full.enh$multiplot,nrow=2,labels="")
+```
+
+## K27me3
+
+```{r,echo = FALSE,include=FALSE}
+K27me3.ocr.rseb <- read.computeMatrix.file("~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K27me3.ocr.mat.gz")
+K27me3.ocr.rseb$matrix.data <- K27me3.ocr.rseb$matrix.data %>%
+  dplyr::slice(1:10693)
+K27me3.ocr.rseb$metadata$values[[20]] <- c("0,10693")
+#
+K27me3.profile.sub <- plot.density.profile(matrix.file = K27me3.ocr.rseb,plot.by.group = TRUE,region.names = "OCR")
+K27me3.profile.full <- plot.density.profile(matrix.file = "~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K27me3.ocr.mat.gz",plot.by.group = TRUE,region.names = "OCR")
+#
+K27me3.enhancer.rseb <- read.computeMatrix.file("~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K27me3.enhancer.mat.gz")
+K27me3.enhancer.rseb$matrix.data <- K27me3.enhancer.rseb$matrix.data %>%
+  dplyr::slice(1:12509)
+K27me3.enhancer.rseb$metadata$values[[20]] <- c("0,12509")
+#
+K27me3.profile.sub.enh <- plot.density.profile(matrix.file = K27me3.enhancer.rseb,plot.by.group = TRUE,region.names = "enhancer")
+K27me3.profile.full.enh <- plot.density.profile(matrix.file = "~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K27me3.enhancer.mat.gz",plot.by.group = TRUE,region.names = "enhancer")
+```
+
+```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+cowplot::plot_grid(K27me3.profile.sub$multiplot,K27me3.profile.full$multiplot,nrow=2,labels="")
+#
+cowplot::plot_grid(K27me3.profile.sub.enh$multiplot,K27me3.profile.full.enh$multiplot,nrow=2,labels="")
+```
+
+## K27ac
+
+```{r,echo = FALSE,include=FALSE}
+K27ac.ocr.rseb <- read.computeMatrix.file("~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K27ac.ocr.mat.gz")
+K27ac.ocr.rseb$matrix.data <- K27ac.ocr.rseb$matrix.data %>%
+  dplyr::slice(1:10693)
+K27ac.ocr.rseb$metadata$values[[20]] <- c("0,10693")
+#
+K27ac.profile.sub <- plot.density.profile(matrix.file = K27ac.ocr.rseb,plot.by.group = TRUE,region.names = "OCR")
+K27ac.profile.full <- plot.density.profile(matrix.file = "~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K27ac.ocr.mat.gz",plot.by.group = TRUE,region.names = "OCR")
+#
+K27ac.enhancer.rseb <- read.computeMatrix.file("~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K27ac.enhancer.mat.gz")
+K27ac.enhancer.rseb$matrix.data <- K27ac.enhancer.rseb$matrix.data %>%
+  dplyr::slice(1:12509)
+K27ac.enhancer.rseb$metadata$values[[20]] <- c("0,12509")
+#
+K27ac.profile.sub.enh <- plot.density.profile(matrix.file = K27ac.enhancer.rseb,plot.by.group = TRUE,region.names = "enhancer")
+K27ac.profile.full.enh <- plot.density.profile(matrix.file = "~/Documents/hnscc_chipseq/cm.out/Cal27.FINAL.OLDBATCH.K27ac.enhancer.mat.gz",plot.by.group = TRUE,region.names = "enhancer")
+```
+
+```{r,echo = FALSE,fig.show = "hold", out.width = "50%", fig.align = "default"}
+cowplot::plot_grid(K27ac.profile.sub$multiplot,K27ac.profile.full$multiplot,nrow=2,labels="")
+#
+cowplot::plot_grid(K27ac.profile.sub.enh$multiplot,K27ac.profile.full.enh$multiplot,nrow=2,labels="")
 ```
