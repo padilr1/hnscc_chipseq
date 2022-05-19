@@ -36,6 +36,7 @@ library(reactable)
 library(data.table)
 library(gridExtra)
 library(ggpubr)
+library(gprofiler2)
 ```
 
 ```{r echo = FALSE, warning=FALSE,message=FALSE,out.width='100%'}
@@ -278,7 +279,7 @@ load("~/Documents/hnscc_chipseq/data/res.oe_nsd2.RData")
 
 ## Upregulated
 
-Cutoff: Log2FC > 2 & normalized mean counts > 400; 308 genes for NSD1KO.c1 and 123 genes for NSD1KO.c17
+Cutoff: Log2FC > 2 & normalized mean counts > 400
 ```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="100%",fig.align='center'}
 res.nsd1ko.c1.up <- res.nsd1ko.c1[res.nsd1ko.c1$baseMean>400,] %>%
   dplyr::filter(log2FoldChange > 2)
@@ -314,9 +315,14 @@ p2.final <- p2 + stat_pvalue_manual(stat.p2, label = "p.adj = {p.adj}")
 grid.arrange(p1.final,p2.final,ncol=2)
 ```
 
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="100%",fig.align='center'}
+tbl <- data.frame(samp = c("NSD1KO_C1","NSD1KO_C17"),total_DEG=c("308","123"),less_up = c(302,115))
+reactable(tbl)
+```
+
 ## Downregulated
 
-Cutoff: Log2FC < -2 & normalized mean counts > 400; 233 genes for NSD1KO.C1 and 212 genes for NSD1KO.C17
+Cutoff: Log2FC < -2 & normalized mean counts > 400
 ```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="100%",fig.align='center'}
 res.nsd1ko.c1.down <- res.nsd1ko.c1[res.nsd1ko.c1$baseMean>400,] %>%
   dplyr::filter(log2FoldChange < -2)
@@ -351,5 +357,48 @@ stat.p2 <- compare_means(log2FoldChange ~ cond, data = res.nsd1ko_c17.oe_nsd2.do
 p2.final <- p2 + stat_pvalue_manual(stat.p2, label = "p.adj = {p.adj}")
 #
 grid.arrange(p1.final,p2.final,ncol=2)
+```
+
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="100%",fig.align='center'}
+tbl <- data.frame(samp = c("NSD1KO_C1","NSD1KO_C17"),total_DEG=c("233","212"),less_down = c(232,210))
+reactable(tbl)
+```
+
+# Pathway Analysis - Cal27
+
+## Upregulated {.tabset}
+
+### Table
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="100%",fig.align='center'}
+load("~/Documents/hnscc_chipseq/data/cal27.nsd1ko_c1.pathway.analysis.RData")
+load("~/Documents/hnscc_chipseq/data/cal27.nsd1ko_c17.pathway.analysis.RData")
+#
+reactable(cal27.nsd1ko_c1$up_reactable)
+#
+reactable(cal27.nsd1ko_c17$up_reactable)
+```
+
+### Graph
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="100%",fig.align='center'}
+gostplot(cal27.nsd1ko_c1$up)
+#
+gostplot(cal27.nsd1ko_c17$up)
+```
+
+## Downregulated {.tabset}
+
+### Table
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="100%",fig.align='center'}
+reactable(cal27.nsd1ko_c1$down_reactable)
+#
+reactable(cal27.nsd1ko_c17$down_reactable)
+#
+```
+
+### Graph
+```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.show="hold", out.width="100%",fig.align='center'}
+gostplot(cal27.nsd1ko_c1$down)
+#
+gostplot(cal27.nsd1ko_c17$down)
 ```
 
