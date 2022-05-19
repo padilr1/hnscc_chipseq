@@ -10,4 +10,6 @@ navbar:
       href: third_page.html
     - text: "Part 4"
       href: fourth_page.html
+    - text: "NSD2OE Pt.2"
+      href: fifth_page.html
 output_dir: "docs"
